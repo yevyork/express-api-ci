@@ -1,10 +1,20 @@
 language: node_js
 node_js:
-  - 'stable'
+- stable
 install: npm install
 services:
-  - postgresql
+- postgresql
 before_script:
-  - npm run db:create:test
+- npm run db:create:test
 script: npm test
 after_success: npm run coverage
+deploy:
+  provider: heroku
+  api_key:
+    secure: 15Gjkktm1izGEb4e6SumBVJv1BgGoAnJwRXA7ASYOmNXOIv8io1JRu/WqFQGMW6zzyzk9uk4lEWO7z5cLelehem0MGZlpriZHTrsj7YoOOV+VGs3MYVgCdaAMh8aY4NYqpMyJ8D40oG0xxa9R9RsJv9/76MYfuc9hOmsHgKObHyaYvDny/hDt3LQXUmLk2swXhlAJHI6Obj7/qYJ2+DBIcEejjyCdahBb78SjqxmTOy37/7d4x5KeusnBwqYmLt9dF0u9mSxOuJ6G+w42gwj3unUAr6Sq8/FkvR+sKO/4cLtrlGp6gjoX5GZOP2fylQbbCOTW5fqjAEEIQlVeObvLNE1o67Bo92GjT/udpcAEcYCsXsOlxWYNc1DRj1d70dabWw4aO0Ip5RL4owUsdhOHNJDFx2tLnKTvBLXiIq/d+AOdc+nTaajDYSv5gZOF4hsqZdB29IgnAw6GShg262T2X2UhaGKvHeVaZ8gQPzFMiivLMr4G9LRWEumap0Y6pObSiIe7eVlsrZFwqrtdupZh9QGGv7t/DJRKe672iooBdyZ8DHkADi4ykgdY2IJwB2lV9pn12ZX4+t2QqbFTEVFjlE2TrBW7EcOnYshCjNNr90Iu5AcXF5wzTtcydnVu3ro1VOWWtm+9rdPuElFUwV/IRTiQIE/1qy7rNFvLi8kvfY=
+  app: yev-users-ci
+  on:
+    repo: yevyork/express-api-ci
+run:
+    - "npx sequelize-cli db:migrate"
+    - "npx sequelize-cli db:seed:all"
